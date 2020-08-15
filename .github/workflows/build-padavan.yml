@@ -32,7 +32,7 @@ jobs:
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
     - name: Clone source code
       run: |
-        git clone --depth=1 https://github.com/wangziyingwen/rt-n56u.git /opt/rt-n56u
+        git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
@@ -41,11 +41,18 @@ jobs:
       env:
         TNAME: PSG1218_hzn
       run: |
-        if [ -f $BASE_PATH/$t_item/shadowsocks.sh ] ; then
+        if [ -f /public/shadowsocks.sh ] ; then
         mv -f /public/shadowsocks.sh /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
-        echo "shadowsocks SH文件拷贝成功"
+        echo "shadowsocks SH copy success"
+        else
+        exit 1
         fi 
+        if [ /public/PSG1218_hzn.config ] ; then
         mv -f /public/PSG1218_hzn.config /opt/rt-n56u/trunk/configs/templates/PSG1218_hzn.config
+        echo "config file copy success"
+        else
+        exit 1
+        fi 
         cd /opt/rt-n56u/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
         echo "configs/templates/$TNAME.config not found "
