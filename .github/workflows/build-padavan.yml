@@ -36,10 +36,16 @@ jobs:
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
+    
     - name: Build Firmware
       env:
         TNAME: PSG1218_hzn
       run: |
+        if [ -f $BASE_PATH/$t_item/shadowsocks.sh ] ; then
+        mv -f /public/shadowsocks.sh /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
+        echo "shadowsocks SH文件拷贝成功"
+        fi 
+        mv -f /public/PSG1218_hzn.config /opt/rt-n56u/trunk/configs/templates/PSG1218_hzn.config
         cd /opt/rt-n56u/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
         echo "configs/templates/$TNAME.config not found "
