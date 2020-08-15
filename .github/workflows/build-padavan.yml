@@ -41,22 +41,22 @@ jobs:
       env:
         TNAME: PSG1218_hzn
       run: |
-        if [ -f /public/shadowsocks.sh ] ; then
-        mv -f /public/shadowsocks.sh /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
+        if [ -f public/shadowsocks.sh ] ; then
+        mv -f public/shadowsocks.sh /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
         echo "shadowsocks SH copy success"
         else
         exit 1
         fi 
-        if [ /public/PSG1218_hzn.config ] ; then
-        mv -f /public/PSG1218_hzn.config /opt/rt-n56u/trunk/configs/templates/PSG1218_hzn.config
+        if [ -f public/PSG1218_hzn.config ] ; then
+        mv -f public/PSG1218_hzn.config /opt/rt-n56u/trunk/configs/templates/PSG1218_hzn.config
         echo "config file copy success"
         else
-        exit 1
+        exit 2
         fi 
         cd /opt/rt-n56u/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
         echo "configs/templates/$TNAME.config not found "
-        exit 1
+        exit 3
         fi
         cp -f configs/templates/$TNAME.config .config
         sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' .config
